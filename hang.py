@@ -64,6 +64,16 @@ def correctLetter(letter, lettersGuessed, secretWord):
             guessed += '_ '
     print 'Good Guess: ', guessed
 
+def wrongLetter(letter, lettersGuessed, secretWord):
+    lettersGuessed.append(letter)
+    guessed = getGuessedWord()
+    for letter in secretWord:
+        if letter in lettersGuessed:
+            guessed += letter
+        else:
+            guessed += '_ '
+    print 'Oops! That letter is not in my word: ',  guessed
+
 def inputLetter(guesses, lettersGuessed, secretWord):
     print 'You have ', guesses, 'guesses left.'
     getAvailableLetters(lettersGuessed)
@@ -74,14 +84,7 @@ def inputLetter(guesses, lettersGuessed, secretWord):
         correctLetter(letter, lettersGuessed, secretWord)
     else:
         guesses -=1
-        lettersGuessed.append(letter)
-        guessed = getGuessedWord()
-        for letter in secretWord:
-            if letter in lettersGuessed:
-                guessed += letter
-            else:
-                guessed += '_ '
-        print 'Oops! That letter is not in my word: ',  guessed
+        wrongLetter(letter, lettersGuessed, secretWord)
     print '------------'
     return guesses
 
