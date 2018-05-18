@@ -1,8 +1,41 @@
 import random
 import string
 from sets import Set
+import sys
+import logging
 
 WORDLIST_FILENAME = "palavras.txt"
+
+
+def logConfig(log, message):
+    logging.basicConfig(filename='hang.log', level=logging.INFO)
+
+    logger = logging.getLogger('Log Message')
+    logger.setLevel(logging.DEBUG)
+
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    ch.setFormatter(formatter)
+
+    logger.addHandler(ch)
+
+    if log == 'debug':
+        logger.debug(message)
+
+    elif log == 'info':
+        logger.info(message)
+
+    elif log == 'warn':
+        logger.warn(message)
+
+    elif log == 'critical':
+        logger.critical(message)
+
+    else:
+        logger.error(message)
 
 def lettersNumber(word, guesses):
     differentLetters = Set(list(word))
@@ -17,8 +50,14 @@ def loadWords():
     take a while to finish.
     """
     print "Loading word list from file..."
-    inFile = open(WORDLIST_FILENAME, 'r', 0)
+    try:
+        inFile = open(WORDLIST_FILENAME, 'r', 0)
+    except IOError:
+        print "Error 404 File not found!"
+        logConfig('critical', 'File not found!')
+        sys.exit(0)
     line = inFile.readline()
+    logConfig('debug', 'File open')
     wordlist = string.split(line)
     print "  ", len(wordlist), "words loaded."
     return random.choice(wordlist)
