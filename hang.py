@@ -82,7 +82,7 @@ def getAvailableLetters(lettersGuessed):
     for letter in available:
         if letter in lettersGuessed:
             available = available.replace(letter, '')
-    print 'Available letters', available
+    print 'Available letters', str(available)
 
 def triedLetter(letter, lettersGuessed):
     guessed = getGuessedWord()
@@ -117,6 +117,9 @@ def inputLetter(guesses, lettersGuessed, secretWord):
     print 'You have ', guesses, 'guesses left.'
     getAvailableLetters(lettersGuessed)
     letter = raw_input('Please guess a letter: ')
+    while letter.isalpha() == False or len(letter) != 1:
+        print 'The system only allow letters'
+        letter = str(raw_input('Please guess a letter'))
     if letter in lettersGuessed:
         triedLetter(letter, lettersGuessed)
     elif letter in secretWord:
